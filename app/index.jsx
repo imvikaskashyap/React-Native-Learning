@@ -1,57 +1,59 @@
-import { View, Text, TextInput, Button, Alert } from "react-native";
-import React, { useState } from "react";
+import React from 'react';
+import { SafeAreaView, FlatList, Text, View, StyleSheet } from 'react-native';
 
-const Index = () => {
-const [display, setDisplay] = useState(false)
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Users = [
+  { id: '1', name: 'John', age: 28 },
+  { id: '2', name: 'Jane', age: 25 },
+  { id: '3', name: 'Jim', age: 32 },
+  { id: '4', name: 'Jimmy', age: 29 },
+  { id: '5', name: 'Jimola', age: 30 },
+];
 
-  const handleSubmit = () => {
-    // Alert.alert(name, email, password);
-    setDisplay(true)
-  };
-
+const UserItem = ({ name, age }) => {
   return (
-    <View>
-      <Text className="text-red-500 text-3xl mb-8">Form in React Native</Text>
-      <TextInput
-      value={name}
-        className="text-xl border-2 border-blue-500 p-3"
-        placeholder="Enter your name"
-        onChangeText={(text) => setName(text)}
-      />
-      <TextInput
-       value={email}
-        className="text-xl border-2 border-blue-500 p-3 mt-4"
-        placeholder="Enter your Email"
-        onChangeText={(text) => setEmail(text)}
-      />
-      <TextInput
-       value={password}
-        className="text-xl border-2 border-blue-500 p-3 mt-4 mb-4"
-        placeholder="Enter your Password"
-        onChangeText={(text) => setPassword(text)}
-      />
-      <Button
-        onPress={handleSubmit}
-        className=" mt-4"
-        title="Submit"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-      />
-
-      {
-        display? 
-        <View>
-        <Text>{name}</Text>
-        <Text>{email}</Text>
-        <Text>{password}</Text>
-
-        </View> : null
-      }
+    <View style={styles.itemContainer}>
+      <Text style={styles.nameText}>{name}</Text>
+      <Text style={styles.ageText}>Age: {age}</Text>
     </View>
   );
 };
+
+const Index = () => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={Users}
+        keyExtractor={(item) => item.id} 
+        renderItem={({ item }) => (
+          <UserItem name={item.name} age={item.age} />
+        )}
+      />
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#f5f5f5',
+  },
+  itemContainer: {
+    backgroundColor: '#fff',
+    padding: 15,
+    marginVertical: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  nameText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  ageText: {
+    fontSize: 16,
+    color: 'gray',
+  },
+});
 
 export default Index;
